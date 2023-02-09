@@ -64,7 +64,7 @@ function Home() {
         const { data } = await axios.get("/downloadDocument/" + docId, { responseType: "blob" })
         const file = new Blob([data], { type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
         const fileURL = URL.createObjectURL(file);
-        window.open(fileURL);
+        window.location.href = fileURL
     }
 
     const handleSearch = async () => {
@@ -81,7 +81,7 @@ function Home() {
                     <Box display={'flex'} padding={'20px 20px 0px 20px'}>
                         <TextField sx={{ width: '100%', marginRight: '20px' }} value={search} onChange={(e) => { setSearch(e.target.value) }} type="text" label="Search" InputProps={{ endAdornment: (<InputAdornment> <IconButton onClick={handleSearch}> <Search /> </IconButton> </InputAdornment>) }} />
                     </Box>
-                    {documents.map((document) => (
+                    {(documents.length != 0) ? documents.map((document) => (
                         <>
                             <Card key={document._id} sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px', padding: '0px 40px' }}>
                                 <Box flex={1} display={'flex'} alignItems={'center'}>
@@ -105,8 +105,10 @@ function Home() {
                                 </Button>
                             </Card>
                         </>
-                    )
-                    )}
+                    )) : <Card sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginTop: '20px', padding: '0px 40px' }}>
+                        <Typography color={'red'} variant='h6'>Oops..! Sorry No documents found with the word</Typography>
+                    </Card>
+                    }
                 </Box>
             </Card>
         </Container>
