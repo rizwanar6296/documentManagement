@@ -42,23 +42,23 @@ function Home() {
 
     };
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const formData = new FormData();
-        formData.append("docxFile", file);
-        try {
-            const response = await axios.post('/upload', formData)
-            if (!response.status == 200) {
-                throw new Error("Failed to upload file");
-            }
-            console.log("File uploaded successfully");
-            uploadInputRef.current.value = null
-            setFile(null)
+    // const handleSubmit = async (event) => {
+    //     event.preventDefault();
+    //     const formData = new FormData();
+    //     formData.append("docxFile", file);
+    //     try {
+    //         const response = await axios.post('/upload', formData)
+    //         if (!response.status == 200) {
+    //             throw new Error("Failed to upload file");
+    //         }
+    //         console.log("File uploaded successfully");
+    //         uploadInputRef.current.value = null
+    //         setFile(null)
 
-        } catch (error) {
-            console.error(error);
-        }
-    };
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // };
 
     const handleDownload = async (docId) => {
         const { data } = await axios.get("/downloadDocument/" + docId, { responseType: "blob" })
@@ -79,7 +79,7 @@ function Home() {
                 <StyledDropzone setFile={setFile} />
                 <Box>
                     <Box display={'flex'} padding={'20px 20px 0px 20px'}>
-                        <TextField sx={{ width: '100%', marginRight: '20px' }} value={search} onChange={(e) => { setSearch(e.target.value) }} type="text" label="Search" InputProps={{ endAdornment: (<InputAdornment> <IconButton> <Search /> </IconButton> </InputAdornment>) }} />
+                        <TextField sx={{ width: '100%', marginRight: '20px' }} value={search} onChange={(e) => { setSearch(e.target.value) }} type="text" label="Search" InputProps={{ endAdornment: (<InputAdornment> <IconButton onClick={handleSearch}> <Search /> </IconButton> </InputAdornment>) }} />
                     </Box>
                     {documents.map((document) => (
                         <>
